@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 class TextBox extends StatelessWidget {
-  const TextBox({super.key, this.color, this.letter = ''});
+  const TextBox(
+      {super.key, this.color, this.letter = '', this.selected = false});
 
   final Color? color;
   final String letter;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 55,
+      margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: color,
-        border: Border.all(color: const Color(0xff8A8A8A)),
+        border: Border.all(color: boderColor(), width: selected ? 2 : 1),
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -30,5 +34,9 @@ class TextBox extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color boderColor() {
+    return selected ? Colors.black : const Color(0xff8A8A8A);
   }
 }

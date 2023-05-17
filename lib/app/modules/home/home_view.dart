@@ -9,6 +9,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  int activeIndex = 0;
+  List<String> row1 = ['', '', '', '', ''];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,34 +28,20 @@ class _HomeViewState extends State<HomeView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                TextBox(
-                  color: Colors.white,
-                  letter: 'A',
-                ),
-                SizedBox(width: 10),
-                TextBox(
-                  color: Colors.white,
-                  letter: 'A',
-                ),
-                SizedBox(width: 10),
-                TextBox(
-                  color: Colors.white,
-                  letter: 'A',
-                ),
-                SizedBox(width: 10),
-                TextBox(
-                  color: Colors.white,
-                  letter: 'A',
-                ),
-                SizedBox(width: 10),
-                TextBox(
-                  color: Colors.white,
-                  letter: 'A',
-                )
-              ],
-            )
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: row1
+                    .map(
+                      (e) => Row(
+                        children: [
+                          TextBox(
+                            color: Colors.white,
+                            letter: e,
+                            selected: false,
+                          ),
+                        ],
+                      ),
+                    )
+                    .toList())
           ],
         ),
       ),
