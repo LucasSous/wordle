@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:wordle/app/modules/home/home_store.dart';
 import 'package:wordle/app/widgets/text_box.dart';
 
 class HomeView extends StatefulWidget {
@@ -9,8 +11,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int activeIndex = 0;
-  List<String> row1 = ['', '', '', '', ''];
+  final _homeStore = HomeStore();
 
   @override
   Widget build(BuildContext context) {
@@ -38,29 +39,33 @@ class _HomeViewState extends State<HomeView> {
               ))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
+      body: Observer(builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: List.generate(
+              _homeStore.textBoxList.length,
+              (index) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: row1
-                    .map(
-                      (e) => Row(
-                        children: [
-                          TextBox(
-                            color: null,
-                            letter: e,
-                            selected: false,
-                          ),
-                        ],
-                      ),
-                    )
-                    .toList())
-          ],
-        ),
-      ),
+                children: List.generate(
+                  _homeStore.textBoxList[index].length,
+                  (idx) => TextBox(
+                    color: null,
+                    letter: _homeStore.textBoxList[index][idx],
+                    selected: _homeStore.activeBox == idx &&
+                        _homeStore.activeRow == index,
+                    onTap: () {
+                      _homeStore.changeActiveBox(idx);
+                      _homeStore.changeActiveRow(index);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }
