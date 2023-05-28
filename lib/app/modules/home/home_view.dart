@@ -18,9 +18,25 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         title: const Text(
           'Wordle',
-          style: TextStyle(fontSize: 32, color: Color(0xff464646)),
+          style: TextStyle(
+              fontSize: 32,
+              color: Color(0xff464646),
+              fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.auto_graph_outlined,
+              size: 30,
+            )),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.settings_outlined,
+                size: 30,
+              ))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -34,7 +50,7 @@ class _HomeViewState extends State<HomeView> {
                       (e) => Row(
                         children: [
                           TextBox(
-                            color: Colors.white,
+                            color: null,
                             letter: e,
                             selected: false,
                           ),
