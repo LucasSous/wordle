@@ -24,14 +24,6 @@ class TextBox extends StatelessWidget {
           color: color,
           border: Border.all(color: boderColor(), width: selected ? 2 : 1),
           borderRadius: BorderRadius.circular(8),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.15),
-          //     spreadRadius: 5,
-          //     blurRadius: 30,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

@@ -11,6 +11,11 @@ final lightTheme = ThemeData(
     elevation: 0,
     centerTitle: true,
   ),
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(
+      color: Color(0xff5D5D5D),
+    ),
+  ),
 );
 
 final darkTheme = ThemeData(

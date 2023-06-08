@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:wordle/app/modules/home/components/keyboard_component.dart';
 import 'package:wordle/app/modules/home/home_store.dart';
 import 'package:wordle/app/widgets/text_box.dart';
 
@@ -27,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
         leading: IconButton(
             onPressed: () {},
             icon: const Icon(
-              Icons.auto_graph_outlined,
+              Icons.insert_chart_outlined,
               size: 30,
             )),
         actions: [
@@ -43,26 +44,32 @@ class _HomeViewState extends State<HomeView> {
         return Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: List.generate(
-              _homeStore.textBoxList.length,
-              (index) => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: List.generate(
-                  _homeStore.textBoxList[index].length,
-                  (idx) => TextBox(
-                    color: null,
-                    letter: _homeStore.textBoxList[index][idx],
-                    selected: _homeStore.activeBox == idx &&
-                        _homeStore.activeRow == index,
-                    onTap: () {
-                      _homeStore.changeActiveBox(idx);
-                      _homeStore.changeActiveRow(index);
-                    },
+                  _homeStore.textBoxList.length,
+                  (index) => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      _homeStore.textBoxList[index].length,
+                      (idx) => TextBox(
+                        color: null,
+                        letter: _homeStore.textBoxList[index][idx],
+                        selected: _homeStore.activeBox == idx &&
+                            _homeStore.activeRow == index,
+                        onTap: () {
+                          _homeStore.changeActiveBox(idx);
+                          _homeStore.changeActiveRow(index);
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              const KeyboardComponent(),
+            ],
           ),
         );
       }),
