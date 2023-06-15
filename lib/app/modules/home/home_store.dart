@@ -5,8 +5,14 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store {
   @observable
-  List<List<String>> textBoxList =
-      List.generate(5, (idx) => List.generate(5, (index) => ''));
+  ObservableList<ObservableList<String>> textBoxList =
+      ObservableList<ObservableList<String>>.of([
+    ObservableList<String>.of(['', '', '', '', '']),
+    ObservableList<String>.of(['', '', '', '', '']),
+    ObservableList<String>.of(['', '', '', '', '']),
+    ObservableList<String>.of(['', '', '', '', '']),
+    ObservableList<String>.of(['', '', '', '', '']),
+  ]);
 
   @observable
   int activeBox = 0;
@@ -15,12 +21,43 @@ abstract class HomeStoreBase with Store {
   int activeRow = 0;
 
   @action
-  void changeActiveBox(int value) {
-    activeBox = value;
+  void changeActiveBox(int value, bool isInRow) {
+    if (isInRow) activeBox = value;
   }
 
   @action
   void changeActiveRow(int value) {
     activeRow = value;
+  }
+
+  List<int> checkNotFilled(int value) {
+    List<int> list = [];
+    for (var i = 0; i < 5; i++) {
+      if (textBoxList[value][i].isEmpty) {
+        list.add(i);
+      }
+    }
+    return list;
+  }
+
+  @action
+  void clickTheKey(String value) {
+    textBoxList[activeRow][activeBox] = value;
+    var listOfEmpties = checkNotFilled(activeRow);
+    if (listOfEmpties.isNotEmpty) {
+      if (activeBox < 4) {
+        activeBox += 1;
+      } else {
+        activeBox = listOfEmpties[0];
+      }
+    }
+  }
+
+  @action
+  void clickDeleteKey() {
+    if (textBoxList[activeRow][activeBox].isEmpty) {
+      activeBox = activeBox != 0 ? activeBox - 1 : activeBox;
+    }
+    textBoxList[activeRow][activeBox] = '';
   }
 }

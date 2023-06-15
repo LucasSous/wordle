@@ -13,13 +13,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
       Atom(name: 'HomeStoreBase.textBoxList', context: context);
 
   @override
-  List<List<String>> get textBoxList {
+  ObservableList<ObservableList<String>> get textBoxList {
     _$textBoxListAtom.reportRead();
     return super.textBoxList;
   }
 
   @override
-  set textBoxList(List<List<String>> value) {
+  set textBoxList(ObservableList<ObservableList<String>> value) {
     _$textBoxListAtom.reportWrite(value, super.textBoxList, () {
       super.textBoxList = value;
     });
@@ -61,11 +61,11 @@ mixin _$HomeStore on HomeStoreBase, Store {
       ActionController(name: 'HomeStoreBase', context: context);
 
   @override
-  void changeActiveBox(int value) {
+  void changeActiveBox(int value, bool isInRow) {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.changeActiveBox');
     try {
-      return super.changeActiveBox(value);
+      return super.changeActiveBox(value, isInRow);
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -77,6 +77,28 @@ mixin _$HomeStore on HomeStoreBase, Store {
         name: 'HomeStoreBase.changeActiveRow');
     try {
       return super.changeActiveRow(value);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clickTheKey(String value) {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.clickTheKey');
+    try {
+      return super.clickTheKey(value);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clickDeleteKey() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.clickDeleteKey');
+    try {
+      return super.clickDeleteKey();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }

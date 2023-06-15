@@ -42,7 +42,8 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: Observer(builder: (_) {
         return Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding:
+              const EdgeInsets.only(top: 12, bottom: 25, left: 12, right: 12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,15 +61,17 @@ class _HomeViewState extends State<HomeView> {
                         selected: _homeStore.activeBox == idx &&
                             _homeStore.activeRow == index,
                         onTap: () {
-                          _homeStore.changeActiveBox(idx);
-                          _homeStore.changeActiveRow(index);
+                          _homeStore.changeActiveBox(
+                              idx, index == _homeStore.activeRow);
                         },
                       ),
                     ),
                   ),
                 ),
               ),
-              const KeyboardComponent(),
+              KeyboardComponent(
+                homeStore: _homeStore,
+              ),
             ],
           ),
         );

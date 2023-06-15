@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/app/modules/home/home_store.dart';
 import 'package:wordle/app/widgets/key_widget.dart';
 
 class KeyboardComponent extends StatefulWidget {
-  const KeyboardComponent({super.key});
+  const KeyboardComponent({super.key, required this.homeStore});
+
+  final HomeStore homeStore;
 
   @override
   State<KeyboardComponent> createState() => _KeyboardComponentState();
@@ -11,56 +14,88 @@ class KeyboardComponent extends StatefulWidget {
 class _KeyboardComponentState extends State<KeyboardComponent> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            KeyWidget(character: 'Q'),
-            KeyWidget(character: 'W'),
-            KeyWidget(character: 'E'),
-            KeyWidget(character: 'R'),
-            KeyWidget(character: 'T'),
-            KeyWidget(character: 'Y'),
-            KeyWidget(character: 'U'),
-            KeyWidget(character: 'I'),
-            KeyWidget(character: 'O'),
-            KeyWidget(character: 'P'),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            KeyWidget(character: 'A'),
-            KeyWidget(character: 'S'),
-            KeyWidget(character: 'D'),
-            KeyWidget(character: 'F'),
-            KeyWidget(character: 'G'),
-            KeyWidget(character: 'H'),
-            KeyWidget(character: 'J'),
-            KeyWidget(character: 'K'),
-            KeyWidget(character: 'L'),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            KeyWidget(character: 'Z'),
-            KeyWidget(character: 'X'),
-            KeyWidget(character: 'C'),
-            KeyWidget(character: 'V'),
-            KeyWidget(character: 'B'),
-            KeyWidget(character: 'N'),
-            KeyWidget(character: 'M'),
-            SizedBox(width: 10),
-            Icon(
-              Icons.backspace_rounded,
-              size: 30,
-            )
-          ],
-        )
-      ],
+    var homeStore = widget.homeStore;
+    return FittedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              KeyWidget(
+                  character: 'Q', onTap: () => homeStore.clickTheKey('Q')),
+              KeyWidget(
+                  character: 'W', onTap: () => homeStore.clickTheKey('W')),
+              KeyWidget(
+                  character: 'E', onTap: () => homeStore.clickTheKey('E')),
+              KeyWidget(
+                  character: 'R', onTap: () => homeStore.clickTheKey('R')),
+              KeyWidget(
+                  character: 'T', onTap: () => homeStore.clickTheKey('T')),
+              KeyWidget(
+                  character: 'Y', onTap: () => homeStore.clickTheKey('Y')),
+              KeyWidget(
+                  character: 'U', onTap: () => homeStore.clickTheKey('U')),
+              KeyWidget(
+                  character: 'I', onTap: () => homeStore.clickTheKey('I')),
+              KeyWidget(
+                  character: 'O', onTap: () => homeStore.clickTheKey('O')),
+              KeyWidget(
+                  character: 'P', onTap: () => homeStore.clickTheKey('P')),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              KeyWidget(
+                  character: 'A', onTap: () => homeStore.clickTheKey('A')),
+              KeyWidget(
+                  character: 'S', onTap: () => homeStore.clickTheKey('S')),
+              KeyWidget(
+                  character: 'D', onTap: () => homeStore.clickTheKey('D')),
+              KeyWidget(
+                  character: 'F', onTap: () => homeStore.clickTheKey('F')),
+              KeyWidget(
+                  character: 'G', onTap: () => homeStore.clickTheKey('G')),
+              KeyWidget(
+                  character: 'H', onTap: () => homeStore.clickTheKey('H')),
+              KeyWidget(
+                  character: 'J', onTap: () => homeStore.clickTheKey('J')),
+              KeyWidget(
+                  character: 'K', onTap: () => homeStore.clickTheKey('K')),
+              KeyWidget(
+                  character: 'L', onTap: () => homeStore.clickTheKey('L')),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              KeyWidget(
+                  character: 'Z', onTap: () => homeStore.clickTheKey('Z')),
+              KeyWidget(
+                  character: 'X', onTap: () => homeStore.clickTheKey('X')),
+              KeyWidget(
+                  character: 'C', onTap: () => homeStore.clickTheKey('C')),
+              KeyWidget(
+                  character: 'V', onTap: () => homeStore.clickTheKey('V')),
+              KeyWidget(
+                  character: 'B', onTap: () => homeStore.clickTheKey('B')),
+              KeyWidget(
+                  character: 'N', onTap: () => homeStore.clickTheKey('N')),
+              KeyWidget(
+                  character: 'M', onTap: () => homeStore.clickTheKey('M')),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: homeStore.clickDeleteKey,
+                child: const Icon(
+                  Icons.backspace_rounded,
+                  size: 35,
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

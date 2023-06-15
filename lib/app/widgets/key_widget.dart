@@ -20,13 +20,16 @@ class KeyWidget extends StatelessWidget {
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(6),
           ),
-          width: 25,
+          width: 35,
           child: Center(
-            child: Text(
-              character.toUpperCase(),
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).textTheme.bodyLarge!.color),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                character.toUpperCase(),
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).textTheme.bodyLarge!.color),
+              ),
             ),
           ),
         ),

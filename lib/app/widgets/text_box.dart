@@ -26,10 +26,12 @@ class TextBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Text(
-            letter.toUpperCase(),
-            style: const TextStyle(fontSize: 32, color: Color(0xff5D5D5D)),
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Center(
+            child: Text(
+              letter.toUpperCase(),
+              style: const TextStyle(fontSize: 32, color: Color(0xff5D5D5D)),
+            ),
           ),
         ),
       ),
