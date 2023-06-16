@@ -23,11 +23,12 @@ class KeyWidget extends StatelessWidget {
           width: 35,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5),
               child: Text(
                 character.toUpperCase(),
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
                     color: Theme.of(context).textTheme.bodyLarge!.color),
               ),
             ),

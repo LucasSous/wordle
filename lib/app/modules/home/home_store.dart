@@ -12,6 +12,7 @@ abstract class HomeStoreBase with Store {
     ObservableList<String>.of(['', '', '', '', '']),
     ObservableList<String>.of(['', '', '', '', '']),
     ObservableList<String>.of(['', '', '', '', '']),
+    ObservableList<String>.of(['', '', '', '', '']),
   ]);
 
   @observable
@@ -59,5 +60,14 @@ abstract class HomeStoreBase with Store {
       activeBox = activeBox != 0 ? activeBox - 1 : activeBox;
     }
     textBoxList[activeRow][activeBox] = '';
+  }
+
+  @action
+  void checkWord() {
+    var listOfEmpties = checkNotFilled(activeRow);
+    if (listOfEmpties.isEmpty) {
+      activeRow += 1;
+      activeBox = 0;
+    }
   }
 }

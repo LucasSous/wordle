@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:wordle/app/modules/home/components/keyboard_component.dart';
 import 'package:wordle/app/modules/home/home_store.dart';
+import 'package:wordle/app/widgets/button_widget.dart';
 import 'package:wordle/app/widgets/text_box.dart';
 
 class HomeView extends StatefulWidget {
@@ -68,6 +69,13 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                 ),
+              ),
+              ButtonWidget(
+                text: 'TENTAR',
+                onPressed:
+                    _homeStore.checkNotFilled(_homeStore.activeRow).isEmpty
+                        ? () => _homeStore.checkWord()
+                        : null,
               ),
               KeyboardComponent(
                 homeStore: _homeStore,

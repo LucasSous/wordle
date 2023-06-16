@@ -30,7 +30,11 @@ class TextBox extends StatelessWidget {
           child: Center(
             child: Text(
               letter.toUpperCase(),
-              style: const TextStyle(fontSize: 32, color: Color(0xff5D5D5D)),
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
+                color: Color(0xff5D5D5D),
+              ),
             ),
           ),
         ),

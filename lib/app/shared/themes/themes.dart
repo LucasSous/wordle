@@ -16,6 +16,9 @@ final lightTheme = ThemeData(
       color: Color(0xff5D5D5D),
     ),
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: TextButton.styleFrom(
+          backgroundColor: _lightColorScheme.primaryContainer)),
 );
 
 final darkTheme = ThemeData(

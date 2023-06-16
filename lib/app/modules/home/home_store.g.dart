@@ -105,6 +105,17 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  void checkWord() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.checkWord');
+    try {
+      return super.checkWord();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 textBoxList: ${textBoxList},
