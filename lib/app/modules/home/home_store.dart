@@ -21,6 +21,9 @@ abstract class HomeStoreBase with Store {
   @observable
   int activeRow = 0;
 
+  @observable
+  bool errorAnimate = false;
+
   @action
   void changeActiveBox(int value, bool isInRow) {
     if (isInRow) activeBox = value;
@@ -65,9 +68,15 @@ abstract class HomeStoreBase with Store {
   @action
   void checkWord() {
     var listOfEmpties = checkNotFilled(activeRow);
-    if (listOfEmpties.isEmpty) {
-      activeRow += 1;
-      activeBox = 0;
-    }
+    startErrorAnimation();
+    // if (listOfEmpties.isEmpty) {
+    //   activeRow += 1;
+    //   activeBox = 0;
+    // }
+  }
+
+  @action
+  void startErrorAnimation() {
+    errorAnimate = !errorAnimate;
   }
 }

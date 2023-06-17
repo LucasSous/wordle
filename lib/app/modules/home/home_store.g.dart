@@ -57,6 +57,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$errorAnimateAtom =
+      Atom(name: 'HomeStoreBase.errorAnimate', context: context);
+
+  @override
+  bool get errorAnimate {
+    _$errorAnimateAtom.reportRead();
+    return super.errorAnimate;
+  }
+
+  @override
+  set errorAnimate(bool value) {
+    _$errorAnimateAtom.reportWrite(value, super.errorAnimate, () {
+      super.errorAnimate = value;
+    });
+  }
+
   late final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase', context: context);
 
@@ -116,11 +132,23 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  void startErrorAnimation() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.startErrorAnimation');
+    try {
+      return super.startErrorAnimation();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 textBoxList: ${textBoxList},
 activeBox: ${activeBox},
-activeRow: ${activeRow}
+activeRow: ${activeRow},
+errorAnimate: ${errorAnimate}
     ''';
   }
 }

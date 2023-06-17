@@ -57,6 +57,9 @@ class _HomeViewState extends State<HomeView> {
                     children: List.generate(
                       _homeStore.textBoxList[index].length,
                       (idx) => TextBox(
+                        errorAnimate: _homeStore.activeRow == index
+                            ? _homeStore.errorAnimate
+                            : false,
                         color: null,
                         letter: _homeStore.textBoxList[index][idx],
                         selected: _homeStore.activeBox == idx &&

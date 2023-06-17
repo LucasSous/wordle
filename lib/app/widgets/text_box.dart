@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox(
@@ -6,40 +7,48 @@ class TextBox extends StatelessWidget {
       this.color,
       this.letter = '',
       this.selected = false,
+      this.animate = false,
+      this.errorAnimate = false,
       this.onTap});
 
   final Color? color;
   final String letter;
   final bool selected;
+  final bool animate;
+  final bool errorAnimate;
   final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 55,
-        margin: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: boderColor(), width: selected ? 2 : 1),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Center(
-            child: Text(
-              letter.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff5D5D5D),
+        onTap: onTap,
+        child: Container(
+          width: 55,
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: color,
+            border: Border.all(color: boderColor(), width: selected ? 2 : 1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Center(
+              child: Text(
+                letter.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff5D5D5D),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        )
+            .animate(target: selected ? 1 : 0)
+            .scaleXY(
+                duration: 300.ms, curve: Curves.easeInOut, begin: 1, end: 1.1)
+            .animate(target: errorAnimate ? 1 : 0)
+            .shake(hz: 5, duration: 500.ms));
   }
 
   Color boderColor() {
