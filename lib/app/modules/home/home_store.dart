@@ -1,19 +1,19 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:wordle/app/modules/home/models/text_box_model.dart';
 part 'home_store.g.dart';
 
 class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store {
   @observable
-  ObservableList<ObservableList<String>> textBoxList =
-      ObservableList<ObservableList<String>>.of([
-    ObservableList<String>.of(['', '', '', '', '']),
-    ObservableList<String>.of(['', '', '', '', '']),
-    ObservableList<String>.of(['', '', '', '', '']),
-    ObservableList<String>.of(['', '', '', '', '']),
-    ObservableList<String>.of(['', '', '', '', '']),
-    ObservableList<String>.of(['', '', '', '', '']),
-  ]);
+  ObservableList<ObservableList<TextBoxModel>> textBoxList =
+      ObservableList<ObservableList<TextBoxModel>>.of(List.generate(
+          6,
+          (index) => ObservableList<TextBoxModel>.of(
+              List.generate(5, (index) => TextBoxModel()))));
 
   @observable
   int activeBox = 0;
@@ -23,6 +23,9 @@ abstract class HomeStoreBase with Store {
 
   @observable
   bool errorAnimate = false;
+
+  @observable
+  bool digitAnimate = false;
 
   @action
   void changeActiveBox(int value, bool isInRow) {
@@ -37,7 +40,7 @@ abstract class HomeStoreBase with Store {
   List<int> checkNotFilled(int value) {
     List<int> list = [];
     for (var i = 0; i < 5; i++) {
-      if (textBoxList[value][i].isEmpty) {
+      if (textBoxList[value][i].value.isEmpty) {
         list.add(i);
       }
     }
@@ -46,33 +49,55 @@ abstract class HomeStoreBase with Store {
 
   @action
   void clickTheKey(String value) {
-    textBoxList[activeRow][activeBox] = value;
+    textBoxList[activeRow][activeBox].value = value;
+    digitAnimate = true;
     var listOfEmpties = checkNotFilled(activeRow);
-    if (listOfEmpties.isNotEmpty) {
-      if (activeBox < 4) {
-        activeBox += 1;
-      } else {
-        activeBox = listOfEmpties[0];
+    Timer(const Duration(milliseconds: 100), () {
+      digitAnimate = false;
+      if (listOfEmpties.isNotEmpty) {
+        if (activeBox < 4) {
+          activeBox += 1;
+        } else {
+          activeBox = listOfEmpties[0];
+        }
       }
-    }
+    });
   }
 
   @action
   void clickDeleteKey() {
-    if (textBoxList[activeRow][activeBox].isEmpty) {
+    if (textBoxList[activeRow][activeBox].value.isEmpty) {
       activeBox = activeBox != 0 ? activeBox - 1 : activeBox;
     }
-    textBoxList[activeRow][activeBox] = '';
+    textBoxList[activeRow][activeBox].value = '';
   }
 
   @action
   void checkWord() {
     var listOfEmpties = checkNotFilled(activeRow);
-    startErrorAnimation();
-    // if (listOfEmpties.isEmpty) {
-    //   activeRow += 1;
-    //   activeBox = 0;
-    // }
+    setBoxColors();
+    // startErrorAnimation();
+    if (listOfEmpties.isEmpty) {
+      activeRow += 1;
+      activeBox = 0;
+    }
+  }
+
+  @action
+  void setBoxColors() {
+    textBoxList[activeRow][0].color = Colors.red;
+    Timer(const Duration(milliseconds: 300), () {
+      textBoxList[activeRow][1].color = Colors.red;
+      Timer(const Duration(milliseconds: 300), () {
+        textBoxList[activeRow][2].color = Colors.red;
+        Timer(const Duration(milliseconds: 300), () {
+          textBoxList[activeRow][3].color = Colors.red;
+          Timer(const Duration(milliseconds: 300), () {
+            textBoxList[activeRow][4].color = Colors.red;
+          });
+        });
+      });
+    });
   }
 
   @action

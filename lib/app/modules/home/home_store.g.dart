@@ -13,13 +13,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
       Atom(name: 'HomeStoreBase.textBoxList', context: context);
 
   @override
-  ObservableList<ObservableList<String>> get textBoxList {
+  ObservableList<ObservableList<TextBoxModel>> get textBoxList {
     _$textBoxListAtom.reportRead();
     return super.textBoxList;
   }
 
   @override
-  set textBoxList(ObservableList<ObservableList<String>> value) {
+  set textBoxList(ObservableList<ObservableList<TextBoxModel>> value) {
     _$textBoxListAtom.reportWrite(value, super.textBoxList, () {
       super.textBoxList = value;
     });
@@ -70,6 +70,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
   set errorAnimate(bool value) {
     _$errorAnimateAtom.reportWrite(value, super.errorAnimate, () {
       super.errorAnimate = value;
+    });
+  }
+
+  late final _$digitAnimateAtom =
+      Atom(name: 'HomeStoreBase.digitAnimate', context: context);
+
+  @override
+  bool get digitAnimate {
+    _$digitAnimateAtom.reportRead();
+    return super.digitAnimate;
+  }
+
+  @override
+  set digitAnimate(bool value) {
+    _$digitAnimateAtom.reportWrite(value, super.digitAnimate, () {
+      super.digitAnimate = value;
     });
   }
 
@@ -132,6 +148,17 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  void setBoxColors() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.setBoxColors');
+    try {
+      return super.setBoxColors();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void startErrorAnimation() {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.startErrorAnimation');
@@ -148,7 +175,8 @@ mixin _$HomeStore on HomeStoreBase, Store {
 textBoxList: ${textBoxList},
 activeBox: ${activeBox},
 activeRow: ${activeRow},
-errorAnimate: ${errorAnimate}
+errorAnimate: ${errorAnimate},
+digitAnimate: ${digitAnimate}
     ''';
   }
 }
