@@ -12,4 +12,14 @@ abstract class TextBoxModelBase with Store {
 
   @observable
   Color color;
+
+  @action
+  void setValue(String value_) {
+    value = value_;
+  }
+
+  @action
+  void setColor(Color color_) {
+    color = color_;
+  }
 }

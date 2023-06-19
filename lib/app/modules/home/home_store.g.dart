@@ -89,6 +89,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$secretWordAtom =
+      Atom(name: 'HomeStoreBase.secretWord', context: context);
+
+  @override
+  String get secretWord {
+    _$secretWordAtom.reportRead();
+    return super.secretWord;
+  }
+
+  @override
+  set secretWord(String value) {
+    _$secretWordAtom.reportWrite(value, super.secretWord, () {
+      super.secretWord = value;
+    });
+  }
+
   late final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase', context: context);
 
@@ -109,6 +125,17 @@ mixin _$HomeStore on HomeStoreBase, Store {
         name: 'HomeStoreBase.changeActiveRow');
     try {
       return super.changeActiveRow(value);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void randomWord() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.randomWord');
+    try {
+      return super.randomWord();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -137,11 +164,11 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
-  void checkWord() {
+  void checkWord(BuildContext context) {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.checkWord');
     try {
-      return super.checkWord();
+      return super.checkWord(context);
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -176,7 +203,8 @@ textBoxList: ${textBoxList},
 activeBox: ${activeBox},
 activeRow: ${activeRow},
 errorAnimate: ${errorAnimate},
-digitAnimate: ${digitAnimate}
+digitAnimate: ${digitAnimate},
+secretWord: ${secretWord}
     ''';
   }
 }

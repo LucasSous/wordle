@@ -7,7 +7,6 @@ class TextBox extends StatelessWidget {
       this.color,
       this.letter = '',
       this.selected = false,
-      this.animate = false,
       this.digitAnimate = false,
       this.errorAnimate = false,
       this.onTap});
@@ -15,7 +14,6 @@ class TextBox extends StatelessWidget {
   final Color? color;
   final String letter;
   final bool selected;
-  final bool animate;
   final bool digitAnimate;
   final bool errorAnimate;
   final Function()? onTap;
@@ -51,7 +49,7 @@ class TextBox extends StatelessWidget {
                 duration: 150.ms, curve: Curves.easeInOut, begin: 1, end: 1.1)
             .then()
             .scaleXY(curve: Curves.easeInOut, begin: 1, end: 0.9)
-            .animate(target: animate ? 1 : 0)
+            .animate(target: selected ? 1 : 0)
             .scaleXY(
                 duration: 300.ms, curve: Curves.easeInOut, begin: 1, end: 1.1)
             .animate(target: errorAnimate ? 1 : 0)

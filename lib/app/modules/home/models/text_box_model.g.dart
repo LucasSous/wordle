@@ -41,6 +41,31 @@ mixin _$TextBoxModel on TextBoxModelBase, Store {
     });
   }
 
+  late final _$TextBoxModelBaseActionController =
+      ActionController(name: 'TextBoxModelBase', context: context);
+
+  @override
+  void setValue(String value_) {
+    final _$actionInfo = _$TextBoxModelBaseActionController.startAction(
+        name: 'TextBoxModelBase.setValue');
+    try {
+      return super.setValue(value_);
+    } finally {
+      _$TextBoxModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setColor(Color color_) {
+    final _$actionInfo = _$TextBoxModelBaseActionController.startAction(
+        name: 'TextBoxModelBase.setColor');
+    try {
+      return super.setColor(color_);
+    } finally {
+      _$TextBoxModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

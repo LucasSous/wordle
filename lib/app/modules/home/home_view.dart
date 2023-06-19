@@ -16,6 +16,12 @@ class _HomeViewState extends State<HomeView> {
   final _homeStore = HomeStore();
 
   @override
+  void initState() {
+    _homeStore.randomWord();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +84,7 @@ class _HomeViewState extends State<HomeView> {
                 text: 'TENTAR',
                 onPressed:
                     _homeStore.checkNotFilled(_homeStore.activeRow).isEmpty
-                        ? () => _homeStore.checkWord()
+                        ? () => _homeStore.checkWord(context)
                         : null,
               ),
               KeyboardComponent(
