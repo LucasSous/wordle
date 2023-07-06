@@ -105,6 +105,54 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$correctLettersAtom =
+      Atom(name: 'HomeStoreBase.correctLetters', context: context);
+
+  @override
+  ObservableList<String> get correctLetters {
+    _$correctLettersAtom.reportRead();
+    return super.correctLetters;
+  }
+
+  @override
+  set correctLetters(ObservableList<String> value) {
+    _$correctLettersAtom.reportWrite(value, super.correctLetters, () {
+      super.correctLetters = value;
+    });
+  }
+
+  late final _$nearbyLettersAtom =
+      Atom(name: 'HomeStoreBase.nearbyLetters', context: context);
+
+  @override
+  ObservableList<String> get nearbyLetters {
+    _$nearbyLettersAtom.reportRead();
+    return super.nearbyLetters;
+  }
+
+  @override
+  set nearbyLetters(ObservableList<String> value) {
+    _$nearbyLettersAtom.reportWrite(value, super.nearbyLetters, () {
+      super.nearbyLetters = value;
+    });
+  }
+
+  late final _$incorrectLettersAtom =
+      Atom(name: 'HomeStoreBase.incorrectLetters', context: context);
+
+  @override
+  ObservableList<String> get incorrectLetters {
+    _$incorrectLettersAtom.reportRead();
+    return super.incorrectLetters;
+  }
+
+  @override
+  set incorrectLetters(ObservableList<String> value) {
+    _$incorrectLettersAtom.reportWrite(value, super.incorrectLetters, () {
+      super.incorrectLetters = value;
+    });
+  }
+
   late final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase', context: context);
 
@@ -175,6 +223,17 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  List<Status> returnStatus() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.returnStatus');
+    try {
+      return super.returnStatus();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setBoxColors() {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.setBoxColors');
@@ -204,7 +263,10 @@ activeBox: ${activeBox},
 activeRow: ${activeRow},
 errorAnimate: ${errorAnimate},
 digitAnimate: ${digitAnimate},
-secretWord: ${secretWord}
+secretWord: ${secretWord},
+correctLetters: ${correctLetters},
+nearbyLetters: ${nearbyLetters},
+incorrectLetters: ${incorrectLetters}
     ''';
   }
 }

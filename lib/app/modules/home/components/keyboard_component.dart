@@ -23,67 +23,119 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               KeyWidget(
-                  character: 'Q', onTap: () => homeStore.clickTheKey('Q')),
+                  character: 'Q',
+                  color: bgColor('Q'),
+                  onTap: () => homeStore.clickTheKey('Q')),
               KeyWidget(
-                  character: 'W', onTap: () => homeStore.clickTheKey('W')),
+                  character: 'W',
+                  color: bgColor('W'),
+                  onTap: () => homeStore.clickTheKey('W')),
               KeyWidget(
-                  character: 'E', onTap: () => homeStore.clickTheKey('E')),
+                  character: 'E',
+                  color: bgColor('E'),
+                  onTap: () => homeStore.clickTheKey('E')),
               KeyWidget(
-                  character: 'R', onTap: () => homeStore.clickTheKey('R')),
+                  character: 'R',
+                  color: bgColor('R'),
+                  onTap: () => homeStore.clickTheKey('R')),
               KeyWidget(
-                  character: 'T', onTap: () => homeStore.clickTheKey('T')),
+                  character: 'T',
+                  color: bgColor('T'),
+                  onTap: () => homeStore.clickTheKey('T')),
               KeyWidget(
-                  character: 'Y', onTap: () => homeStore.clickTheKey('Y')),
+                  character: 'Y',
+                  color: bgColor('Y'),
+                  onTap: () => homeStore.clickTheKey('Y')),
               KeyWidget(
-                  character: 'U', onTap: () => homeStore.clickTheKey('U')),
+                  character: 'U',
+                  color: bgColor('U'),
+                  onTap: () => homeStore.clickTheKey('U')),
               KeyWidget(
-                  character: 'I', onTap: () => homeStore.clickTheKey('I')),
+                  character: 'I',
+                  color: bgColor('I'),
+                  onTap: () => homeStore.clickTheKey('I')),
               KeyWidget(
-                  character: 'O', onTap: () => homeStore.clickTheKey('O')),
+                  character: 'O',
+                  color: bgColor('O'),
+                  onTap: () => homeStore.clickTheKey('O')),
               KeyWidget(
-                  character: 'P', onTap: () => homeStore.clickTheKey('P')),
+                  character: 'P',
+                  color: bgColor('P'),
+                  onTap: () => homeStore.clickTheKey('P')),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               KeyWidget(
-                  character: 'A', onTap: () => homeStore.clickTheKey('A')),
+                  character: 'A',
+                  color: bgColor('A'),
+                  onTap: () => homeStore.clickTheKey('A')),
               KeyWidget(
-                  character: 'S', onTap: () => homeStore.clickTheKey('S')),
+                  character: 'S',
+                  color: bgColor('S'),
+                  onTap: () => homeStore.clickTheKey('S')),
               KeyWidget(
-                  character: 'D', onTap: () => homeStore.clickTheKey('D')),
+                  character: 'D',
+                  color: bgColor('D'),
+                  onTap: () => homeStore.clickTheKey('D')),
               KeyWidget(
-                  character: 'F', onTap: () => homeStore.clickTheKey('F')),
+                  character: 'F',
+                  color: bgColor('F'),
+                  onTap: () => homeStore.clickTheKey('F')),
               KeyWidget(
-                  character: 'G', onTap: () => homeStore.clickTheKey('G')),
+                  character: 'G',
+                  color: bgColor('G'),
+                  onTap: () => homeStore.clickTheKey('G')),
               KeyWidget(
-                  character: 'H', onTap: () => homeStore.clickTheKey('H')),
+                  character: 'H',
+                  color: bgColor('H'),
+                  onTap: () => homeStore.clickTheKey('H')),
               KeyWidget(
-                  character: 'J', onTap: () => homeStore.clickTheKey('J')),
+                  character: 'J',
+                  color: bgColor('J'),
+                  onTap: () => homeStore.clickTheKey('J')),
               KeyWidget(
-                  character: 'K', onTap: () => homeStore.clickTheKey('K')),
+                  character: 'K',
+                  color: bgColor('K'),
+                  onTap: () => homeStore.clickTheKey('K')),
               KeyWidget(
-                  character: 'L', onTap: () => homeStore.clickTheKey('L')),
+                  character: 'L',
+                  color: bgColor('L'),
+                  onTap: () => homeStore.clickTheKey('L')),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               KeyWidget(
-                  character: 'Z', onTap: () => homeStore.clickTheKey('Z')),
+                  character: 'Z',
+                  color: bgColor('Z'),
+                  onTap: () => homeStore.clickTheKey('Z')),
               KeyWidget(
-                  character: 'X', onTap: () => homeStore.clickTheKey('X')),
+                  character: 'X',
+                  color: bgColor('X'),
+                  onTap: () => homeStore.clickTheKey('X')),
               KeyWidget(
-                  character: 'C', onTap: () => homeStore.clickTheKey('C')),
+                  character: 'C',
+                  color: bgColor('C'),
+                  onTap: () => homeStore.clickTheKey('C')),
               KeyWidget(
-                  character: 'V', onTap: () => homeStore.clickTheKey('V')),
+                  character: 'V',
+                  color: bgColor('V'),
+                  onTap: () => homeStore.clickTheKey('V')),
               KeyWidget(
-                  character: 'B', onTap: () => homeStore.clickTheKey('B')),
+                  character: 'B',
+                  color: bgColor('B'),
+                  onTap: () => homeStore.clickTheKey('B')),
               KeyWidget(
-                  character: 'N', onTap: () => homeStore.clickTheKey('N')),
+                  character: 'N',
+                  color: bgColor('N'),
+                  onTap: () => homeStore.clickTheKey('N')),
               KeyWidget(
-                  character: 'M', onTap: () => homeStore.clickTheKey('M')),
+                  character: 'M',
+                  color: bgColor('M'),
+                  onTap: () => homeStore.clickTheKey('M')),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: homeStore.clickDeleteKey,
@@ -97,5 +149,17 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
         ],
       ),
     );
+  }
+
+  Color bgColor(String character) {
+    if (widget.homeStore.correctLetters.contains(character)) {
+      return const Color(0xff85DF7D);
+    } else if (widget.homeStore.nearbyLetters.contains(character)) {
+      return const Color(0xFFFFECA9);
+    } else if (widget.homeStore.incorrectLetters.contains(character)) {
+      return const Color(0xffBEBEBE);
+    } else {
+      return Colors.white;
+    }
   }
 }

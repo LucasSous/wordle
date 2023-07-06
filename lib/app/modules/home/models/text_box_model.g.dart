@@ -25,19 +25,19 @@ mixin _$TextBoxModel on TextBoxModelBase, Store {
     });
   }
 
-  late final _$colorAtom =
-      Atom(name: 'TextBoxModelBase.color', context: context);
+  late final _$statusAtom =
+      Atom(name: 'TextBoxModelBase.status', context: context);
 
   @override
-  Color get color {
-    _$colorAtom.reportRead();
-    return super.color;
+  Status get status {
+    _$statusAtom.reportRead();
+    return super.status;
   }
 
   @override
-  set color(Color value) {
-    _$colorAtom.reportWrite(value, super.color, () {
-      super.color = value;
+  set status(Status value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
     });
   }
 
@@ -56,11 +56,11 @@ mixin _$TextBoxModel on TextBoxModelBase, Store {
   }
 
   @override
-  void setColor(Color color_) {
+  void setStatus(Status value) {
     final _$actionInfo = _$TextBoxModelBaseActionController.startAction(
-        name: 'TextBoxModelBase.setColor');
+        name: 'TextBoxModelBase.setStatus');
     try {
-      return super.setColor(color_);
+      return super.setStatus(value);
     } finally {
       _$TextBoxModelBaseActionController.endAction(_$actionInfo);
     }
@@ -70,7 +70,7 @@ mixin _$TextBoxModel on TextBoxModelBase, Store {
   String toString() {
     return '''
 value: ${value},
-color: ${color}
+status: ${status}
     ''';
   }
 }

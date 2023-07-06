@@ -18,6 +18,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     _homeStore.randomWord();
+    print(_homeStore.secretWord);
     super.initState();
   }
 
@@ -67,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
                         errorAnimate: _homeStore.activeRow == index
                             ? _homeStore.errorAnimate
                             : false,
-                        color: _homeStore.textBoxList[index][idx].color,
+                        status: _homeStore.textBoxList[index][idx].status,
                         letter: _homeStore.textBoxList[index][idx].value,
                         selected: _homeStore.activeBox == idx &&
                             _homeStore.activeRow == index,

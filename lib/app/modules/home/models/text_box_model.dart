@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
+import 'package:wordle/app/modules/home/enums/status_enum.dart';
 import 'package:mobx/mobx.dart';
 part 'text_box_model.g.dart';
 
 class TextBoxModel = TextBoxModelBase with _$TextBoxModel;
 
 abstract class TextBoxModelBase with Store {
-  TextBoxModelBase({this.value = '', this.color = Colors.white});
+  TextBoxModelBase({this.value = '', this.status = Status.standard});
 
   @observable
   String value;
 
   @observable
-  Color color;
+  Status status;
 
   @action
   void setValue(String value_) {
@@ -19,7 +19,7 @@ abstract class TextBoxModelBase with Store {
   }
 
   @action
-  void setColor(Color color_) {
-    color = color_;
+  void setStatus(Status value) {
+    status = value;
   }
 }

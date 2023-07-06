@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:wordle/app/modules/home/enums/status_enum.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox(
       {super.key,
-      this.color,
+      this.status = Status.standard,
       this.letter = '',
       this.selected = false,
       this.digitAnimate = false,
       this.errorAnimate = false,
       this.onTap});
 
-  final Color? color;
+  final Status status;
   final String letter;
   final bool selected;
   final bool digitAnimate;
@@ -26,7 +27,7 @@ class TextBox extends StatelessWidget {
           width: 55,
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            color: color,
+            color: bgColor(status),
             border: Border.all(color: boderColor(), width: selected ? 2 : 1),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -58,5 +59,18 @@ class TextBox extends StatelessWidget {
 
   Color boderColor() {
     return selected ? Colors.black : const Color(0xff8A8A8A);
+  }
+
+  Color bgColor(Status status) {
+    switch (status) {
+      case Status.correct:
+        return const Color(0xff85DF7D);
+      case Status.incorrect:
+        return const Color(0xffBEBEBE);
+      case Status.near:
+        return const Color(0xFFFFECA9);
+      default:
+        return Colors.white;
+    }
   }
 }

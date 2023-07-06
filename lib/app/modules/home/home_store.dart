@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:wordle/app/modules/home/enums/status_enum.dart';
 import 'package:wordle/app/modules/home/models/text_box_model.dart';
 import 'package:wordle/app/shared/utils/snackbar.dart';
 import 'package:wordle/app/shared/wordlist/wordlist.dart';
@@ -33,6 +34,15 @@ abstract class HomeStoreBase with Store {
   @observable
   String secretWord = '';
 
+  @observable
+  ObservableList<String> correctLetters = ObservableList.of([]);
+
+  @observable
+  ObservableList<String> nearbyLetters = ObservableList.of([]);
+
+  @observable
+  ObservableList<String> incorrectLetters = ObservableList.of([]);
+
   @action
   void changeActiveBox(int value, bool isInRow) {
     if (isInRow) activeBox = value;
@@ -47,7 +57,7 @@ abstract class HomeStoreBase with Store {
   void randomWord() {
     Random random = Random();
     int randomIndex = random.nextInt(wordlist.length);
-    secretWord = wordlist[randomIndex];
+    secretWord = removeAccentuation(wordlist[randomIndex]).toUpperCase();
   }
 
   List<int> checkNotFilled(int value) {
@@ -106,17 +116,60 @@ abstract class HomeStoreBase with Store {
     return word;
   }
 
-  Color validateLetter(int index) {
-    String word = removeAccentuation(secretWord).toUpperCase();
-    String letter = word[index];
-    String currentLetter = textBoxList[activeRow][index].value;
-    if (letter == currentLetter) {
-      return const Color(0xFF85DF7D);
-    } else if (word.contains(currentLetter)) {
-      return const Color(0xFFFFECA9);
-    } else {
-      return const Color(0xFFBEBEBE);
+  Map<String, int> countLetters(String text) {
+    Map<String, int> letterCount = {};
+
+    for (int i = 0; i < text.length; i++) {
+      String letter = text[i];
+      if (letterCount.containsKey(letter)) {
+        letterCount[letter] = letterCount[letter]! + 1;
+      } else {
+        letterCount[letter] = 1;
+      }
     }
+
+    return letterCount;
+  }
+
+  @action
+  List<Status> returnStatus() {
+    List<Status> status = [];
+    Map<String, int> secretLetterCount = countLetters(secretWord);
+
+    for (var i = 0; i < 5; i++) {
+      String playerLetter = textBoxList[activeRow][i].value;
+      if (secretWord[i] == playerLetter) {
+        if (secretLetterCount[playerLetter]! > 1) {
+          secretLetterCount[playerLetter] =
+              secretLetterCount[playerLetter]! - 1;
+        } else {
+          secretLetterCount[playerLetter] = 0;
+        }
+      }
+    }
+
+    for (var i = 0; i < secretWord.length; i++) {
+      String playerLetter = textBoxList[activeRow][i].value;
+      if (secretWord[i] == playerLetter) {
+        status.add(Status.correct);
+        correctLetters.add(playerLetter);
+      } else if (secretWord.contains(playerLetter)) {
+        if (secretLetterCount[playerLetter]! > 0) {
+          status.add(Status.near);
+          secretLetterCount[playerLetter] =
+              secretLetterCount[playerLetter]! - 1;
+          nearbyLetters.add(playerLetter);
+        } else {
+          status.add(Status.incorrect);
+          incorrectLetters.add(playerLetter);
+        }
+      } else {
+        status.add(Status.incorrect);
+        incorrectLetters.add(playerLetter);
+      }
+    }
+
+    return status;
   }
 
   String removeAccentuation(String text) {
@@ -132,19 +185,20 @@ abstract class HomeStoreBase with Store {
 
   @action
   void setBoxColors() {
-    textBoxList[activeRow][0].setColor(validateLetter(0));
+    List<Status> status = returnStatus();
+    textBoxList[activeRow][0].setStatus(status[0]);
     activeBox = 0;
     Timer(const Duration(milliseconds: 400), () {
-      textBoxList[activeRow][1].setColor(validateLetter(1));
+      textBoxList[activeRow][1].setStatus(status[1]);
       activeBox = 1;
       Timer(const Duration(milliseconds: 400), () {
-        textBoxList[activeRow][2].setColor(validateLetter(2));
+        textBoxList[activeRow][2].setStatus(status[2]);
         activeBox = 2;
         Timer(const Duration(milliseconds: 400), () {
-          textBoxList[activeRow][3].setColor(validateLetter(3));
+          textBoxList[activeRow][3].setStatus(status[3]);
           activeBox = 3;
           Timer(const Duration(milliseconds: 400), () {
-            textBoxList[activeRow][4].setColor(validateLetter(4));
+            textBoxList[activeRow][4].setStatus(status[4]);
             activeBox = 4;
             Timer(const Duration(milliseconds: 150), () {
               activeRow += 1;
@@ -158,7 +212,10 @@ abstract class HomeStoreBase with Store {
 
   @action
   void startErrorAnimation() {
-    errorAnimate = !errorAnimate;
+    errorAnimate = true;
+    Timer(const Duration(milliseconds: 300), () {
+      errorAnimate = false;
+    });
   }
 
   bool hasInTheList(String value) {
