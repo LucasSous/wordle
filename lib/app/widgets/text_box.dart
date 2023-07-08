@@ -30,6 +30,14 @@ class TextBox extends StatelessWidget {
             color: bgColor(status),
             border: Border.all(color: boderColor(), width: selected ? 2 : 1),
             borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 5,
+                blurRadius: 50,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
