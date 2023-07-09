@@ -68,6 +68,7 @@ class _HomeViewState extends State<HomeView> {
                         errorAnimate: _homeStore.activeRow == index
                             ? _homeStore.errorAnimate
                             : false,
+                        nextGameAnimate: _homeStore.nextGameAnimate,
                         status: _homeStore.textBoxList[index][idx].status,
                         letter: _homeStore.textBoxList[index][idx].value,
                         selected: _homeStore.activeBox == idx &&
@@ -82,10 +83,10 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               ButtonWidget(
-                text: 'TENTAR',
+                text: _homeStore.finalized ? 'PRÓXIMO' : 'TENTAR',
                 onPressed:
                     _homeStore.checkNotFilled(_homeStore.activeRow).isEmpty
-                        ? () => _homeStore.checkWord(context)
+                        ? () => clickButton()
                         : null,
               ),
               KeyboardComponent(
@@ -96,5 +97,11 @@ class _HomeViewState extends State<HomeView> {
         );
       }),
     );
+  }
+
+  void clickButton() {
+    _homeStore.finalized
+        ? _homeStore.nextGame()
+        : _homeStore.checkWord(context);
   }
 }

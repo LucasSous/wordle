@@ -89,6 +89,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$nextGameAnimateAtom =
+      Atom(name: 'HomeStoreBase.nextGameAnimate', context: context);
+
+  @override
+  bool get nextGameAnimate {
+    _$nextGameAnimateAtom.reportRead();
+    return super.nextGameAnimate;
+  }
+
+  @override
+  set nextGameAnimate(bool value) {
+    _$nextGameAnimateAtom.reportWrite(value, super.nextGameAnimate, () {
+      super.nextGameAnimate = value;
+    });
+  }
+
   late final _$secretWordAtom =
       Atom(name: 'HomeStoreBase.secretWord', context: context);
 
@@ -102,6 +118,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
   set secretWord(String value) {
     _$secretWordAtom.reportWrite(value, super.secretWord, () {
       super.secretWord = value;
+    });
+  }
+
+  late final _$finalizedAtom =
+      Atom(name: 'HomeStoreBase.finalized', context: context);
+
+  @override
+  bool get finalized {
+    _$finalizedAtom.reportRead();
+    return super.finalized;
+  }
+
+  @override
+  set finalized(bool value) {
+    _$finalizedAtom.reportWrite(value, super.finalized, () {
+      super.finalized = value;
     });
   }
 
@@ -151,6 +183,30 @@ mixin _$HomeStore on HomeStoreBase, Store {
     _$incorrectLettersAtom.reportWrite(value, super.incorrectLetters, () {
       super.incorrectLetters = value;
     });
+  }
+
+  late final _$checkWordAsyncAction =
+      AsyncAction('HomeStoreBase.checkWord', context: context);
+
+  @override
+  Future<void> checkWord(BuildContext context) {
+    return _$checkWordAsyncAction.run(() => super.checkWord(context));
+  }
+
+  late final _$setBoxColorsAsyncAction =
+      AsyncAction('HomeStoreBase.setBoxColors', context: context);
+
+  @override
+  Future<void> setBoxColors() {
+    return _$setBoxColorsAsyncAction.run(() => super.setBoxColors());
+  }
+
+  late final _$nextGameAsyncAction =
+      AsyncAction('HomeStoreBase.nextGame', context: context);
+
+  @override
+  Future<void> nextGame() {
+    return _$nextGameAsyncAction.run(() => super.nextGame());
   }
 
   late final _$HomeStoreBaseActionController =
@@ -212,33 +268,11 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
-  void checkWord(BuildContext context) {
-    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.checkWord');
-    try {
-      return super.checkWord(context);
-    } finally {
-      _$HomeStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   List<Status> returnStatus() {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.returnStatus');
     try {
       return super.returnStatus();
-    } finally {
-      _$HomeStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setBoxColors() {
-    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.setBoxColors');
-    try {
-      return super.setBoxColors();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -256,6 +290,17 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  void resetAll() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.resetAll');
+    try {
+      return super.resetAll();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 textBoxList: ${textBoxList},
@@ -263,7 +308,9 @@ activeBox: ${activeBox},
 activeRow: ${activeRow},
 errorAnimate: ${errorAnimate},
 digitAnimate: ${digitAnimate},
+nextGameAnimate: ${nextGameAnimate},
 secretWord: ${secretWord},
+finalized: ${finalized},
 correctLetters: ${correctLetters},
 nearbyLetters: ${nearbyLetters},
 incorrectLetters: ${incorrectLetters}

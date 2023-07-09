@@ -26,7 +26,9 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
               keysRow(19, 25),
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: widget.homeStore.clickDeleteKey,
+                onTap: !widget.homeStore.finalized
+                    ? widget.homeStore.clickDeleteKey
+                    : null,
                 child: const Icon(
                   Icons.backspace_rounded,
                   size: 35,
@@ -80,7 +82,9 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
             return KeyWidget(
                 character: letters[index],
                 color: bgColor(letters[index]),
-                onTap: () => widget.homeStore.clickTheKey(letters[index]));
+                onTap: !widget.homeStore.finalized
+                    ? () => widget.homeStore.clickTheKey(letters[index])
+                    : null);
           } else {
             return const SizedBox();
           }

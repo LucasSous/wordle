@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:wordle/app/modules/home/enums/status_enum.dart';
 import 'package:wordle/app/modules/home/models/text_box_model.dart';
+import 'package:wordle/app/shared/utils/dialog.dart';
 import 'package:wordle/app/shared/utils/snackbar.dart';
 import 'package:wordle/app/shared/wordlist/wordlist.dart';
 part 'home_store.g.dart';
@@ -32,7 +34,13 @@ abstract class HomeStoreBase with Store {
   bool digitAnimate = false;
 
   @observable
+  bool nextGameAnimate = false;
+
+  @observable
   String secretWord = '';
+
+  @observable
+  bool finalized = false;
 
   @observable
   ObservableList<String> correctLetters = ObservableList.of([]);
@@ -57,7 +65,7 @@ abstract class HomeStoreBase with Store {
   void randomWord() {
     Random random = Random();
     int randomIndex = random.nextInt(wordlist.length);
-    secretWord = removeAccentuation(wordlist[randomIndex]).toUpperCase();
+    secretWord = wordlist[randomIndex];
   }
 
   List<int> checkNotFilled(int value) {
@@ -95,16 +103,65 @@ abstract class HomeStoreBase with Store {
     textBoxList[activeRow][activeBox].setValue('');
   }
 
+  bool hasInTheList(String value) {
+    List<String> filter =
+        wordlist.where((element) => value == element).toList();
+    return filter.isNotEmpty;
+  }
+
   @action
-  void checkWord(BuildContext context) {
+  Future<void> checkWord(BuildContext context) async {
     if (hasInTheList(formatWord(textBoxList[activeRow]))) {
-      setBoxColors();
+      await setBoxColors();
+      Timer(const Duration(milliseconds: 150), () {
+        if (formatWord(textBoxList[activeRow]) == secretWord) {
+          openDialog(
+            context: context,
+            title: 'Parabéns!',
+            message: 'A palavara era ',
+            secretWord: secretWord,
+            clickButton: () {
+              nextGame();
+              Modular.to.pop();
+            },
+          );
+          finalized = true;
+        } else {
+          if (activeRow == 5) {
+            openDialog(
+              context: context,
+              title: 'Poxa 😞',
+              message: 'A palavara era ',
+              secretWord: secretWord,
+              secretWordColor: Colors.red.shade400,
+              clickButton: () {
+                nextGame();
+                Modular.to.pop();
+              },
+            );
+            finalized = true;
+          } else {
+            activeRow += 1;
+            activeBox = 0;
+          }
+        }
+      });
     } else {
       startErrorAnimation();
       snackbar(
           context: context,
           message: 'Ops, esta ai não contem na lista de palavras.',
           type: AnimatedSnackBarType.info);
+    }
+  }
+
+  @action
+  Future<void> setBoxColors() async {
+    List<Status> status = returnStatus();
+    for (var i = 0; i < textBoxList[activeRow].length; i++) {
+      await Future.delayed(Duration(milliseconds: i > 0 ? 400 : 0));
+      textBoxList[activeRow][i].setStatus(status[i]);
+      activeBox = i;
     }
   }
 
@@ -172,44 +229,6 @@ abstract class HomeStoreBase with Store {
     return status;
   }
 
-  String removeAccentuation(String text) {
-    return text
-        .replaceAll(RegExp(r'[áàãâä]'), 'a')
-        .replaceAll(RegExp(r'[éèêë]'), 'e')
-        .replaceAll(RegExp(r'[íìîï]'), 'i')
-        .replaceAll(RegExp(r'[óòõôö]'), 'o')
-        .replaceAll(RegExp(r'[úùûü]'), 'u')
-        .replaceAll(RegExp(r'[ç]'), 'c')
-        .replaceAll(RegExp(r'[ñ]'), 'n');
-  }
-
-  @action
-  void setBoxColors() {
-    List<Status> status = returnStatus();
-    textBoxList[activeRow][0].setStatus(status[0]);
-    activeBox = 0;
-    Timer(const Duration(milliseconds: 400), () {
-      textBoxList[activeRow][1].setStatus(status[1]);
-      activeBox = 1;
-      Timer(const Duration(milliseconds: 400), () {
-        textBoxList[activeRow][2].setStatus(status[2]);
-        activeBox = 2;
-        Timer(const Duration(milliseconds: 400), () {
-          textBoxList[activeRow][3].setStatus(status[3]);
-          activeBox = 3;
-          Timer(const Duration(milliseconds: 400), () {
-            textBoxList[activeRow][4].setStatus(status[4]);
-            activeBox = 4;
-            Timer(const Duration(milliseconds: 150), () {
-              activeRow += 1;
-              activeBox = 0;
-            });
-          });
-        });
-      });
-    });
-  }
-
   @action
   void startErrorAnimation() {
     errorAnimate = true;
@@ -218,12 +237,26 @@ abstract class HomeStoreBase with Store {
     });
   }
 
-  bool hasInTheList(String value) {
-    List<String> filter = wordlist
-        .where((element) =>
-            removeAccentuation(value).toUpperCase() ==
-            removeAccentuation(element).toUpperCase())
-        .toList();
-    return filter.isNotEmpty;
+  @action
+  void resetAll() {
+    textBoxList = ObservableList<ObservableList<TextBoxModel>>.of(List.generate(
+        6,
+        (index) => ObservableList<TextBoxModel>.of(
+            List.generate(5, (index) => TextBoxModel()))));
+    activeBox = 0;
+    activeRow = 0;
+    secretWord = '';
+    finalized = false;
+    correctLetters = ObservableList.of([]);
+    nearbyLetters = ObservableList.of([]);
+    incorrectLetters = ObservableList.of([]);
+  }
+
+  @action
+  Future<void> nextGame() async {
+    nextGameAnimate = !nextGameAnimate;
+    await Future.delayed(const Duration(milliseconds: 500));
+    resetAll();
+    randomWord();
   }
 }

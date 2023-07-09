@@ -10,6 +10,7 @@ class TextBox extends StatelessWidget {
       this.selected = false,
       this.digitAnimate = false,
       this.errorAnimate = false,
+      this.nextGameAnimate = false,
       this.onTap});
 
   final Status status;
@@ -17,6 +18,7 @@ class TextBox extends StatelessWidget {
   final bool selected;
   final bool digitAnimate;
   final bool errorAnimate;
+  final bool nextGameAnimate;
   final Function()? onTap;
 
   @override
@@ -62,7 +64,14 @@ class TextBox extends StatelessWidget {
             .scaleXY(
                 duration: 300.ms, curve: Curves.easeInOut, begin: 1, end: 1.1)
             .animate(target: errorAnimate ? 1 : 0)
-            .shake(hz: 5, duration: 500.ms));
+            .shake(hz: 5, duration: 500.ms)
+            .animate(target: nextGameAnimate ? 1 : 0)
+            .flip(
+                duration: 1000.milliseconds,
+                curve: Curves.ease,
+                begin: 0,
+                end: 2,
+                direction: Axis.horizontal));
   }
 
   Color boderColor() {

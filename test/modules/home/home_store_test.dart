@@ -17,11 +17,6 @@ void main() {
     expect(word, equals('TESTE'));
   });
 
-  test('Deve remover o acento da palavra', () {
-    String word = homeStore.removeAccentuation('josé');
-    expect(word, equals('jose'));
-  });
-
   test('Deve verificar se a palavra existe na lista de palavras', () {
     bool check = homeStore.hasInTheList('POREM');
     expect(check, true);

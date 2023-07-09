@@ -1,3 +1,5 @@
+import 'package:wordle/app/shared/utils/string_extension.dart';
+
 List<String> wordlist = [
   "sagaz",
   "âmago",
@@ -998,4 +1000,4 @@ List<String> wordlist = [
   "usual",
   "bruxa",
   "filme"
-];
+].map((e) => e.removeAccents().toUpperCase()).toList();
