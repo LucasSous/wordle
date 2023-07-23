@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:wordle/app/modules/home/components/keyboard_component.dart';
 import 'package:wordle/app/modules/home/home_store.dart';
 import 'package:wordle/app/widgets/button_widget.dart';
 import 'package:wordle/app/widgets/text_box.dart';
+import 'package:wordle/app/widgets/title_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -26,15 +28,11 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Wordle',
-          style: TextStyle(
-              fontSize: 32,
-              color: Color(0xff464646),
-              fontWeight: FontWeight.bold),
-        ),
+        title: const TitleWidget(text: 'Wordle'),
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Modular.to.pushNamed('/statistics');
+            },
             icon: const Icon(
               Icons.insert_chart_outlined,
               size: 30,
