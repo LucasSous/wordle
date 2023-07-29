@@ -6,6 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:wordle/app/modules/home/enums/status_enum.dart';
 import 'package:wordle/app/modules/home/models/text_box_model.dart';
+import 'package:wordle/app/modules/home/repositories/game_data_interface.dart';
 import 'package:wordle/app/shared/utils/dialog.dart';
 import 'package:wordle/app/shared/utils/snackbar.dart';
 import 'package:wordle/app/shared/wordlist/wordlist.dart';
@@ -14,6 +15,8 @@ part 'home_store.g.dart';
 class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store {
+  final IGameData _gameData = Modular.get();
+
   @observable
   ObservableList<ObservableList<TextBoxModel>> textBoxList =
       ObservableList<ObservableList<TextBoxModel>>.of(List.generate(
