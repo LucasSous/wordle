@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:wordle/app/modules/home/enums/status_enum.dart';
+import 'package:wordle/app/modules/home/models/game_data_model.dart';
+import 'package:wordle/app/modules/home/models/text_box_hive_model.dart';
 import 'package:wordle/app/modules/home/models/text_box_model.dart';
 import 'package:wordle/app/modules/home/repositories/game_data_interface.dart';
+import 'package:wordle/app/shared/constants/hive_constants.dart';
 import 'package:wordle/app/shared/utils/dialog.dart';
 import 'package:wordle/app/shared/utils/snackbar.dart';
 import 'package:wordle/app/shared/wordlist/wordlist.dart';
@@ -15,6 +18,10 @@ part 'home_store.g.dart';
 class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store {
+  HomeStoreBase() {
+    _init();
+  }
+
   final IGameData _gameData = Modular.get();
 
   @observable
@@ -65,10 +72,21 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
-  void randomWord() {
+  Future<void> _init() async {
     Random random = Random();
     int randomIndex = random.nextInt(wordlist.length);
-    secretWord = wordlist[randomIndex];
+    var gameData = await _gameData.get(kGameDataKey);
+    if (gameData != null) {
+      secretWord = gameData.secretWord;
+      textBoxList = _hiveObjectModelForMobx(gameData.words);
+      activeRow = gameData.activeRow;
+      finalized = gameData.finalized;
+      correctLetters = _convertToObservableList(gameData.correctLetters);
+      incorrectLetters = _convertToObservableList(gameData.incorrectLetters);
+      nearbyLetters = _convertToObservableList(gameData.nearbyLetters);
+    } else {
+      secretWord = wordlist[randomIndex];
+    }
   }
 
   List<int> checkNotFilled(int value) {
@@ -115,8 +133,8 @@ abstract class HomeStoreBase with Store {
   @action
   Future<void> checkWord(BuildContext context) async {
     if (hasInTheList(formatWord(textBoxList[activeRow]))) {
-      await setBoxColors();
-      Timer(const Duration(milliseconds: 150), () {
+      await _setBoxColors();
+      Timer(const Duration(milliseconds: 150), () async {
         if (formatWord(textBoxList[activeRow]) == secretWord) {
           openDialog(
             context: context,
@@ -148,9 +166,10 @@ abstract class HomeStoreBase with Store {
             activeBox = 0;
           }
         }
+        await _updateGameData();
       });
     } else {
-      startErrorAnimation();
+      _startErrorAnimation();
       snackbar(
           context: context,
           message: 'Ops, esta ai não contem na lista de palavras.',
@@ -159,8 +178,8 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
-  Future<void> setBoxColors() async {
-    List<Status> status = returnStatus();
+  Future<void> _setBoxColors() async {
+    List<Status> status = _returnStatus();
     for (var i = 0; i < textBoxList[activeRow].length; i++) {
       await Future.delayed(Duration(milliseconds: i > 0 ? 400 : 0));
       textBoxList[activeRow][i].setStatus(status[i]);
@@ -176,7 +195,7 @@ abstract class HomeStoreBase with Store {
     return word;
   }
 
-  Map<String, int> countLetters(String text) {
+  Map<String, int> _countLetters(String text) {
     Map<String, int> letterCount = {};
 
     for (int i = 0; i < text.length; i++) {
@@ -192,9 +211,9 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
-  List<Status> returnStatus() {
+  List<Status> _returnStatus() {
     List<Status> status = [];
-    Map<String, int> secretLetterCount = countLetters(secretWord);
+    Map<String, int> secretLetterCount = _countLetters(secretWord);
 
     for (var i = 0; i < 5; i++) {
       String playerLetter = textBoxList[activeRow][i].value;
@@ -233,7 +252,7 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
-  void startErrorAnimation() {
+  void _startErrorAnimation() {
     errorAnimate = true;
     Timer(const Duration(milliseconds: 300), () {
       errorAnimate = false;
@@ -241,7 +260,7 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
-  void resetAll() {
+  void _resetAll() {
     textBoxList = ObservableList<ObservableList<TextBoxModel>>.of(List.generate(
         6,
         (index) => ObservableList<TextBoxModel>.of(
@@ -258,8 +277,59 @@ abstract class HomeStoreBase with Store {
   @action
   Future<void> nextGame() async {
     nextGameAnimate = !nextGameAnimate;
+    finalized = false;
     await Future.delayed(const Duration(milliseconds: 500));
-    resetAll();
-    randomWord();
+    await _gameData.put(kGameDataKey, null);
+    _resetAll();
+    _init();
+  }
+
+  Future<void> _updateGameData() async {
+    await _gameData.put(
+      kGameDataKey,
+      GameDataModel(
+        words: _mobxModelForHiveObject(textBoxList),
+        secretWord: secretWord,
+        activeRow: activeRow,
+        finalized: finalized,
+        correctLetters: correctLetters,
+        incorrectLetters: incorrectLetters,
+        nearbyLetters: nearbyLetters,
+      ),
+    );
+  }
+
+  List<List<TextBoxHiveModel>> _mobxModelForHiveObject(
+      ObservableList<ObservableList<TextBoxModel>> words) {
+    List<List<TextBoxHiveModel>> list = [];
+    for (var i = 0; i < 6; i++) {
+      list.add([]);
+      for (var element in words[i]) {
+        list[i].add(
+            TextBoxHiveModel(value: element.value, status: element.status));
+      }
+    }
+    return list;
+  }
+
+  ObservableList<ObservableList<TextBoxModel>> _hiveObjectModelForMobx(
+      List<List<TextBoxHiveModel>> words) {
+    ObservableList<ObservableList<TextBoxModel>> list =
+        ObservableList<ObservableList<TextBoxModel>>.of([]);
+    for (var i = 0; i < 6; i++) {
+      list.add(ObservableList<TextBoxModel>.of([]));
+      for (var element in words[i]) {
+        list[i].add(TextBoxModel(value: element.value, status: element.status));
+      }
+    }
+    return list;
+  }
+
+  ObservableList<String> _convertToObservableList(List<String> observableList) {
+    ObservableList<String> list = ObservableList<String>.of([]);
+    for (var element in observableList) {
+      list.add(element);
+    }
+    return list;
   }
 }

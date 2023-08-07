@@ -18,13 +18,6 @@ class _HomeViewState extends State<HomeView> {
   final _homeStore = HomeStore();
 
   @override
-  void initState() {
-    _homeStore.randomWord();
-    print(_homeStore.secretWord);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

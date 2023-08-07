@@ -185,6 +185,14 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$_initAsyncAction =
+      AsyncAction('HomeStoreBase._init', context: context);
+
+  @override
+  Future<void> _init() {
+    return _$_initAsyncAction.run(() => super._init());
+  }
+
   late final _$checkWordAsyncAction =
       AsyncAction('HomeStoreBase.checkWord', context: context);
 
@@ -193,12 +201,12 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return _$checkWordAsyncAction.run(() => super.checkWord(context));
   }
 
-  late final _$setBoxColorsAsyncAction =
-      AsyncAction('HomeStoreBase.setBoxColors', context: context);
+  late final _$_setBoxColorsAsyncAction =
+      AsyncAction('HomeStoreBase._setBoxColors', context: context);
 
   @override
-  Future<void> setBoxColors() {
-    return _$setBoxColorsAsyncAction.run(() => super.setBoxColors());
+  Future<void> _setBoxColors() {
+    return _$_setBoxColorsAsyncAction.run(() => super._setBoxColors());
   }
 
   late final _$nextGameAsyncAction =
@@ -235,17 +243,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
-  void randomWord() {
-    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.randomWord');
-    try {
-      return super.randomWord();
-    } finally {
-      _$HomeStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void clickTheKey(String value) {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.clickTheKey');
@@ -268,33 +265,33 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
-  List<Status> returnStatus() {
+  List<Status> _returnStatus() {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.returnStatus');
+        name: 'HomeStoreBase._returnStatus');
     try {
-      return super.returnStatus();
+      return super._returnStatus();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void startErrorAnimation() {
+  void _startErrorAnimation() {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.startErrorAnimation');
+        name: 'HomeStoreBase._startErrorAnimation');
     try {
-      return super.startErrorAnimation();
+      return super._startErrorAnimation();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void resetAll() {
+  void _resetAll() {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.resetAll');
+        name: 'HomeStoreBase._resetAll');
     try {
-      return super.resetAll();
+      return super._resetAll();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
