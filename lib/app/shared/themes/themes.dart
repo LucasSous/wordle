@@ -13,7 +13,7 @@ final lightTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
-      color: Color(0xff5D5D5D),
+      color: Color(0xff464646),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class KeyWidget extends StatelessWidget {
-  const KeyWidget({super.key, required this.character, this.color, this.onTap});
+  const KeyWidget({
+    super.key,
+    required this.character,
+    this.color,
+    this.onTap,
+  });
 
   final String character;
   final Color? color;
@@ -27,9 +32,10 @@ class KeyWidget extends StatelessWidget {
               child: Text(
                 character.toUpperCase(),
                 style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).textTheme.bodyLarge!.color),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
+                ),
               ),
             ),
           ),

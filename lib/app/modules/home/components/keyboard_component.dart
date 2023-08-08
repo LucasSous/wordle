@@ -18,12 +18,12 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          keysRow(0, 9),
-          keysRow(10, 18),
+          _keysRow(0, 9),
+          _keysRow(10, 18),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              keysRow(19, 25),
+              _keysRow(19, 25),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: !widget.homeStore.finalized
@@ -41,7 +41,7 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
     );
   }
 
-  Row keysRow(int start, int end) {
+  Row _keysRow(int start, int end) {
     var startIndex = start - 1;
     var endIndex = end + 1;
     final letters = [
@@ -81,7 +81,7 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
           if (index > startIndex && index < endIndex) {
             return KeyWidget(
                 character: letters[index],
-                color: bgColor(letters[index]),
+                color: _bgColor(letters[index]),
                 onTap: !widget.homeStore.finalized
                     ? () => widget.homeStore.clickTheKey(letters[index])
                     : null);
@@ -93,7 +93,7 @@ class _KeyboardComponentState extends State<KeyboardComponent> {
     );
   }
 
-  Color bgColor(String character) {
+  Color _bgColor(String character) {
     if (widget.homeStore.correctLetters.contains(character)) {
       return const Color(0xff85DF7D);
     } else if (widget.homeStore.nearbyLetters.contains(character)) {

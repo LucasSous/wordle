@@ -27,7 +27,9 @@ class TextBox extends StatelessWidget {
         onTap: onTap,
         child: Container(
           width: 55,
+          height: 55,
           margin: const EdgeInsets.all(5),
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             color: bgColor(status),
             border: Border.all(color: boderColor(), width: selected ? 2 : 1),
@@ -41,17 +43,12 @@ class TextBox extends StatelessWidget {
               ),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Center(
-              child: Text(
-                letter.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xff5D5D5D),
-                ),
-              ),
+          child: Text(
+            letter.toUpperCase(),
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
           ),
         )

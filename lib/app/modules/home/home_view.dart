@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:wordle/app/modules/home/components/grid_component.dart';
 import 'package:wordle/app/modules/home/components/keyboard_component.dart';
 import 'package:wordle/app/modules/home/home_store.dart';
 import 'package:wordle/app/widgets/button_widget.dart';
-import 'package:wordle/app/widgets/text_box.dart';
 import 'package:wordle/app/widgets/title_widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -28,69 +28,38 @@ class _HomeViewState extends State<HomeView> {
             },
             icon: const Icon(
               Icons.insert_chart_outlined,
-              size: 30,
+              size: 35,
             )),
         actions: [
           IconButton(
               onPressed: () {},
               icon: const Icon(
                 Icons.settings_outlined,
-                size: 30,
+                size: 35,
               ))
         ],
       ),
       body: Observer(builder: (_) {
-        return Padding(
-          padding:
-              const EdgeInsets.only(top: 12, bottom: 25, left: 12, right: 12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: List.generate(
-                  _homeStore.textBoxList.length,
-                  (index) => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      _homeStore.textBoxList[index].length,
-                      (idx) => TextBox(
-                        digitAnimate: _homeStore.digitAnimate,
-                        errorAnimate: _homeStore.activeRow == index
-                            ? _homeStore.errorAnimate
-                            : false,
-                        nextGameAnimate: _homeStore.nextGameAnimate,
-                        status: _homeStore.textBoxList[index][idx].status,
-                        letter: _homeStore.textBoxList[index][idx].value,
-                        selected: _homeStore.activeBox == idx &&
-                            _homeStore.activeRow == index,
-                        onTap: () {
-                          _homeStore.changeActiveBox(
-                              idx, index == _homeStore.activeRow);
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              ButtonWidget(
-                text: _homeStore.finalized ? 'PRÓXIMO' : 'TENTAR',
-                onPressed:
-                    _homeStore.checkNotFilled(_homeStore.activeRow).isEmpty
-                        ? () => clickButton()
-                        : null,
-              ),
-              KeyboardComponent(
-                homeStore: _homeStore,
-              ),
-            ],
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GridComponent(homeStore: _homeStore),
+            ButtonWidget(
+              text: _homeStore.finalized ? 'PRÓXIMO' : 'TENTAR',
+              onPressed: _homeStore.checkNotFilled(_homeStore.activeRow).isEmpty
+                  ? () => _clickButton()
+                  : null,
+            ),
+            KeyboardComponent(
+              homeStore: _homeStore,
+            ),
+          ],
         );
       }),
     );
   }
 
-  void clickButton() {
+  void _clickButton() {
     _homeStore.finalized
         ? _homeStore.nextGame()
         : _homeStore.checkWord(context);
