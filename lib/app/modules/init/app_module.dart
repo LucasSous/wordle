@@ -1,16 +1,17 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:wordle/app/modules/home/home_view.dart';
-import 'package:wordle/app/modules/home/repositories/game_data_interface.dart';
-import 'package:wordle/app/modules/home/repositories/game_data_repository.dart';
-import 'package:wordle/app/modules/statistics/repositories/statistics_interface.dart';
-import 'package:wordle/app/modules/statistics/repositories/statistics_repository.dart';
 import 'package:wordle/app/modules/statistics/statistics_view.dart';
+import 'package:wordle/app/shared/interfaces/hive_interface.dart';
+import 'package:wordle/app/shared/models/game_data_model.dart';
+import 'package:wordle/app/shared/models/statistics_model.dart';
+import 'package:wordle/app/shared/repositories/game_data_repository.dart';
+import 'package:wordle/app/shared/repositories/statistics_repository.dart';
 
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind<IGameData>((i) => GameDataRepository()),
-        Bind<IStatistics>((i) => StatisticsRepository()),
+        Bind<IHive<GameDataModel>>((i) => GameDataRepository()),
+        Bind<IHive<StatisticsModel>>((i) => StatisticsRepository()),
       ];
 
   @override

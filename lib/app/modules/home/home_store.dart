@@ -4,12 +4,12 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:wordle/app/modules/home/enums/status_enum.dart';
-import 'package:wordle/app/modules/home/models/game_data_model.dart';
-import 'package:wordle/app/modules/home/models/text_box_hive_model.dart';
 import 'package:wordle/app/modules/home/models/text_box_model.dart';
-import 'package:wordle/app/modules/home/repositories/game_data_interface.dart';
 import 'package:wordle/app/shared/constants/hive_constants.dart';
+import 'package:wordle/app/shared/enums/status_enum.dart';
+import 'package:wordle/app/shared/interfaces/hive_interface.dart';
+import 'package:wordle/app/shared/models/game_data_model.dart';
+import 'package:wordle/app/shared/models/text_box_hive_model.dart';
 import 'package:wordle/app/shared/utils/dialog.dart';
 import 'package:wordle/app/shared/utils/snackbar.dart';
 import 'package:wordle/app/shared/wordlist/wordlist.dart';
@@ -22,7 +22,7 @@ abstract class HomeStoreBase with Store {
     _init();
   }
 
-  final IGameData _gameData = Modular.get();
+  final IHive<GameDataModel> _gameData = Modular.get();
 
   @observable
   ObservableList<ObservableList<TextBoxModel>> textBoxList =

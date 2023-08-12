@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
-import 'package:wordle/app/modules/statistics/models/statistics_model.dart';
-import 'package:wordle/app/modules/statistics/repositories/statistics_interface.dart';
 import 'package:wordle/app/shared/constants/hive_constants.dart';
+import 'package:wordle/app/shared/interfaces/hive_interface.dart';
+import 'package:wordle/app/shared/models/statistics_model.dart';
 
-class StatisticsRepository implements IStatistics {
+class StatisticsRepository implements IHive<StatisticsModel> {
   final Completer<Box> _instance = Completer<Box>();
 
   Future<void> _init() async {

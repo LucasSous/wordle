@@ -1,5 +1,5 @@
-import 'package:wordle/app/modules/home/enums/status_enum.dart';
 import 'package:mobx/mobx.dart';
+import 'package:wordle/app/shared/enums/status_enum.dart';
 part 'text_box_model.g.dart';
 
 class TextBoxModel = TextBoxModelBase with _$TextBoxModel;

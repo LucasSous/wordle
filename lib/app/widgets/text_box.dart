@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:wordle/app/modules/home/enums/status_enum.dart';
+import 'package:wordle/app/shared/enums/status_enum.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox(

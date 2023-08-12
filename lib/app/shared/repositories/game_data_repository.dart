@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
-import 'package:wordle/app/modules/home/enums/status_enum.dart';
-import 'package:wordle/app/modules/home/models/game_data_model.dart';
-import 'package:wordle/app/modules/home/models/text_box_hive_model.dart';
-import 'package:wordle/app/modules/home/repositories/game_data_interface.dart';
 import 'package:wordle/app/shared/constants/hive_constants.dart';
+import 'package:wordle/app/shared/enums/status_enum.dart';
+import 'package:wordle/app/shared/interfaces/hive_interface.dart';
+import 'package:wordle/app/shared/models/game_data_model.dart';
+import 'package:wordle/app/shared/models/text_box_hive_model.dart';
 
-class GameDataRepository implements IGameData {
+class GameDataRepository implements IHive<GameDataModel> {
   final Completer<Box> _instance = Completer<Box>();
 
   Future<void> _init() async {

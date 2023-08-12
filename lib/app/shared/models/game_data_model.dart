@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:wordle/app/modules/home/models/text_box_hive_model.dart';
+import 'package:wordle/app/shared/models/text_box_hive_model.dart';
 
 part 'game_data_model.g.dart';
 
