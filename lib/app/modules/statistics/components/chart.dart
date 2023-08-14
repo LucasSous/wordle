@@ -87,8 +87,8 @@ class _ChartState extends State<Chart> {
         ),
       ),
     ).animate().scaleY(
-          duration: 800.ms,
-          curve: Curves.easeInOut,
+          duration: 1500.ms,
+          curve: Curves.bounceOut,
           begin: 0,
           end: 1,
           alignment: Alignment.bottomCenter,
@@ -99,7 +99,8 @@ class _ChartState extends State<Chart> {
     double maxHeight = MediaQuery.of(context).size.height * 0.3;
     double minHeight = MediaQuery.of(context).size.height * 0.05;
     int higherValue = returnHigherValue();
-    return (maxHeight / higherValue) * value + minHeight;
+    var expressionValue = (maxHeight / higherValue) * value + minHeight;
+    return expressionValue.isNaN ? minHeight : expressionValue;
   }
 
   int returnHigherValue() {

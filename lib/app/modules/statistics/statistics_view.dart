@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:wordle/app/modules/statistics/components/chart.dart';
 import 'package:wordle/app/modules/statistics/components/statistics_values.dart';
+import 'package:wordle/app/modules/statistics/statistics_store.dart';
 import 'package:wordle/app/widgets/button_widget.dart';
 import 'package:wordle/app/widgets/title_widget.dart';
 
@@ -12,6 +14,14 @@ class StatisticsView extends StatefulWidget {
 }
 
 class _StatisticsViewState extends State<StatisticsView> {
+  final _statisticsStore = StatisticsStore();
+
+  @override
+  void initState() {
+    _statisticsStore.getStatistics();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,22 +29,34 @@ class _StatisticsViewState extends State<StatisticsView> {
         title: const TitleWidget(text: 'Estatísticas'),
         iconTheme: const IconThemeData(size: 30),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            StatisticsValues(
-              matches: '25',
-              wins: '25%',
-              longerSequence: '25',
-              currentSequence: '25',
-            ),
-            Chart(values: [12, 9, 30, 16, 0, 1]),
-            ButtonWidget(text: 'RESETAR')
-          ],
-        ),
-      ),
+      body: Observer(builder: (_) {
+        return _statisticsStore.isLoading
+            ? const SizedBox()
+            : Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    StatisticsValues(
+                      matches: _statisticsStore.returnMatches(),
+                      wins: _statisticsStore.returnWins(),
+                      longerSequence: _statisticsStore.returnLongerSequence(),
+                      currentSequence: _statisticsStore.returnCurrentSequence(),
+                    ),
+                    Chart(
+                        values: _statisticsStore
+                            .handleChartValues(_statisticsStore.statistics)),
+                    ButtonWidget(
+                      text: 'RESETAR',
+                      onPressed: _statisticsStore.statistics != null
+                          ? () =>
+                              _statisticsStore.confirmResetStatistics(context)
+                          : null,
+                    )
+                  ],
+                ),
+              );
+      }),
     );
   }
 }

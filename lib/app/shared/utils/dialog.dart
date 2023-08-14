@@ -7,6 +7,7 @@ openDialog(
         required String title,
         String? message,
         String secretWord = '',
+        required String buttonName,
         Color secretWordColor = const Color(0xff85DF7D),
         Color titleColor = Colors.black,
         void Function()? clickButton}) =>
@@ -59,7 +60,7 @@ openDialog(
                   : null,
               actions: [
                 ButtonWidget(
-                  text: 'PRÓXIMO',
+                  text: buttonName,
                   onPressed: clickButton,
                 )
               ],

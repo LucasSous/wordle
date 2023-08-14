@@ -9,6 +9,7 @@ import 'package:wordle/app/shared/constants/hive_constants.dart';
 import 'package:wordle/app/shared/enums/status_enum.dart';
 import 'package:wordle/app/shared/interfaces/hive_interface.dart';
 import 'package:wordle/app/shared/models/game_data_model.dart';
+import 'package:wordle/app/shared/models/statistics_model.dart';
 import 'package:wordle/app/shared/models/text_box_hive_model.dart';
 import 'package:wordle/app/shared/utils/dialog.dart';
 import 'package:wordle/app/shared/utils/snackbar.dart';
@@ -23,6 +24,7 @@ abstract class HomeStoreBase with Store {
   }
 
   final IHive<GameDataModel> _gameData = Modular.get();
+  final IHive<StatisticsModel> _statistics = Modular.get();
 
   @observable
   ObservableList<ObservableList<TextBoxModel>> textBoxList =
@@ -53,6 +55,9 @@ abstract class HomeStoreBase with Store {
   bool finalized = false;
 
   @observable
+  bool hasVictory = false;
+
+  @observable
   ObservableList<String> correctLetters = ObservableList.of([]);
 
   @observable
@@ -81,6 +86,7 @@ abstract class HomeStoreBase with Store {
       textBoxList = _hiveObjectModelForMobx(gameData.words);
       activeRow = gameData.activeRow;
       finalized = gameData.finalized;
+      hasVictory = gameData.hasVictory;
       correctLetters = _convertToObservableList(gameData.correctLetters);
       incorrectLetters = _convertToObservableList(gameData.incorrectLetters);
       nearbyLetters = _convertToObservableList(gameData.nearbyLetters);
@@ -140,27 +146,31 @@ abstract class HomeStoreBase with Store {
             context: context,
             title: 'Parabéns!',
             message: 'A palavara era ',
+            buttonName: 'PRÓXIMO',
             secretWord: secretWord,
-            clickButton: () {
-              nextGame();
+            clickButton: () async {
+              await nextGame();
               Modular.to.pop();
             },
           );
           finalized = true;
+          hasVictory = true;
         } else {
           if (activeRow == 5) {
             openDialog(
               context: context,
               title: 'Poxa 😞',
               message: 'A palavara era ',
+              buttonName: 'PRÓXIMO',
               secretWord: secretWord,
               secretWordColor: Colors.red.shade400,
-              clickButton: () {
-                nextGame();
+              clickButton: () async {
+                await nextGame();
                 Modular.to.pop();
               },
             );
             finalized = true;
+            hasVictory = false;
           } else {
             activeRow += 1;
             activeBox = 0;
@@ -279,6 +289,7 @@ abstract class HomeStoreBase with Store {
     nextGameAnimate = !nextGameAnimate;
     finalized = false;
     await Future.delayed(const Duration(milliseconds: 500));
+    await _updateStatistics(hasVictory);
     await _gameData.put(kGameDataKey, null);
     _resetAll();
     _init();
@@ -292,6 +303,7 @@ abstract class HomeStoreBase with Store {
         secretWord: secretWord,
         activeRow: activeRow,
         finalized: finalized,
+        hasVictory: hasVictory,
         correctLetters: correctLetters,
         incorrectLetters: incorrectLetters,
         nearbyLetters: nearbyLetters,
@@ -331,5 +343,57 @@ abstract class HomeStoreBase with Store {
       list.add(element);
     }
     return list;
+  }
+
+  Future<void> _updateStatistics(bool hasVictory) async {
+    var statistics = await _statistics.get(kStatisticsKey);
+    await _statistics.put(
+        kStatisticsKey, _returnStatisticsModel(statistics, hasVictory));
+  }
+
+  StatisticsModel _returnStatisticsModel(
+      StatisticsModel? statistics, bool hasVictory) {
+    if (statistics != null) {
+      return StatisticsModel(
+        numberOfMatches: statistics.numberOfMatches + 1,
+        numberOfWins: _newNumberOfWins(statistics.numberOfWins, hasVictory),
+        longestSequence: _newLongestSequence(statistics.longestSequence,
+            _newCurrentSequence(statistics.currentSequence, hasVictory)),
+        currentSequence:
+            _newCurrentSequence(statistics.currentSequence, hasVictory),
+        attempts: _newAttempts(statistics.attempts, hasVictory),
+      );
+    } else {
+      return StatisticsModel(
+        numberOfMatches: 1,
+        numberOfWins: _newNumberOfWins(0, hasVictory),
+        longestSequence:
+            _newLongestSequence(0, _newCurrentSequence(0, hasVictory)),
+        currentSequence: _newCurrentSequence(0, hasVictory),
+        attempts:
+            _newAttempts({1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}, hasVictory),
+      );
+    }
+  }
+
+  int _newNumberOfWins(int currentValue, bool hasVictory) {
+    return hasVictory ? currentValue + 1 : currentValue;
+  }
+
+  int _newLongestSequence(int currentValue, int currentSequence) {
+    return currentSequence > currentValue ? currentSequence : currentValue;
+  }
+
+  int _newCurrentSequence(int currentValue, bool hasVictory) {
+    return hasVictory ? currentValue + 1 : 0;
+  }
+
+  Map<int, int> _newAttempts(Map<int, int> currentValue, bool hasVictory) {
+    if (hasVictory) {
+      currentValue[activeRow + 1] = currentValue[activeRow + 1]! + 1;
+      return currentValue;
+    } else {
+      return currentValue;
+    }
   }
 }

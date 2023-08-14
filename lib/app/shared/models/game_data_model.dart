@@ -15,22 +15,26 @@ class GameDataModel extends HiveObject {
   final int activeRow;
 
   @HiveField(3)
-  bool finalized;
+  final bool finalized;
 
   @HiveField(4)
-  List<String> correctLetters;
+  final bool hasVictory;
 
   @HiveField(5)
-  List<String> incorrectLetters;
+  final List<String> correctLetters;
 
   @HiveField(6)
-  List<String> nearbyLetters;
+  final List<String> incorrectLetters;
+
+  @HiveField(7)
+  final List<String> nearbyLetters;
 
   GameDataModel({
     required this.words,
     required this.secretWord,
     required this.activeRow,
     required this.finalized,
+    required this.hasVictory,
     required this.correctLetters,
     required this.incorrectLetters,
     required this.nearbyLetters,

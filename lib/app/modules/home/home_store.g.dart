@@ -137,6 +137,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$hasVictoryAtom =
+      Atom(name: 'HomeStoreBase.hasVictory', context: context);
+
+  @override
+  bool get hasVictory {
+    _$hasVictoryAtom.reportRead();
+    return super.hasVictory;
+  }
+
+  @override
+  set hasVictory(bool value) {
+    _$hasVictoryAtom.reportWrite(value, super.hasVictory, () {
+      super.hasVictory = value;
+    });
+  }
+
   late final _$correctLettersAtom =
       Atom(name: 'HomeStoreBase.correctLetters', context: context);
 
@@ -308,6 +324,7 @@ digitAnimate: ${digitAnimate},
 nextGameAnimate: ${nextGameAnimate},
 secretWord: ${secretWord},
 finalized: ${finalized},
+hasVictory: ${hasVictory},
 correctLetters: ${correctLetters},
 nearbyLetters: ${nearbyLetters},
 incorrectLetters: ${incorrectLetters}

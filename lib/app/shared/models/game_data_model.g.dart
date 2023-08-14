@@ -23,16 +23,17 @@ class GameDataModelAdapter extends TypeAdapter<GameDataModel> {
       secretWord: fields[1] as String,
       activeRow: fields[2] as int,
       finalized: fields[3] as bool,
-      correctLetters: (fields[4] as List).cast<String>(),
-      incorrectLetters: (fields[5] as List).cast<String>(),
-      nearbyLetters: (fields[6] as List).cast<String>(),
+      hasVictory: fields[4] as bool,
+      correctLetters: (fields[5] as List).cast<String>(),
+      incorrectLetters: (fields[6] as List).cast<String>(),
+      nearbyLetters: (fields[7] as List).cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, GameDataModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.words)
       ..writeByte(1)
@@ -42,10 +43,12 @@ class GameDataModelAdapter extends TypeAdapter<GameDataModel> {
       ..writeByte(3)
       ..write(obj.finalized)
       ..writeByte(4)
-      ..write(obj.correctLetters)
+      ..write(obj.hasVictory)
       ..writeByte(5)
-      ..write(obj.incorrectLetters)
+      ..write(obj.correctLetters)
       ..writeByte(6)
+      ..write(obj.incorrectLetters)
+      ..writeByte(7)
       ..write(obj.nearbyLetters);
   }
 

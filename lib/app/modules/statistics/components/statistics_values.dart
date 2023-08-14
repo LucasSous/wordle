@@ -32,12 +32,12 @@ class StatisticsValues extends StatelessWidget {
 
   SizedBox statisticValue(String name, String value, BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.22,
+      width: MediaQuery.of(context).size.width * 0.23,
       child: Column(children: [
         Text(
           value,
           style: const TextStyle(
-              fontSize: 36, fontWeight: FontWeight.bold, height: 1.2),
+              fontSize: 33, fontWeight: FontWeight.bold, height: 1.2),
         ),
         Text(
           name,
