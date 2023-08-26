@@ -89,22 +89,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
-  late final _$nextGameAnimateAtom =
-      Atom(name: 'HomeStoreBase.nextGameAnimate', context: context);
-
-  @override
-  bool get nextGameAnimate {
-    _$nextGameAnimateAtom.reportRead();
-    return super.nextGameAnimate;
-  }
-
-  @override
-  set nextGameAnimate(bool value) {
-    _$nextGameAnimateAtom.reportWrite(value, super.nextGameAnimate, () {
-      super.nextGameAnimate = value;
-    });
-  }
-
   late final _$secretWordAtom =
       Atom(name: 'HomeStoreBase.secretWord', context: context);
 
@@ -321,7 +305,6 @@ activeBox: ${activeBox},
 activeRow: ${activeRow},
 errorAnimate: ${errorAnimate},
 digitAnimate: ${digitAnimate},
-nextGameAnimate: ${nextGameAnimate},
 secretWord: ${secretWord},
 finalized: ${finalized},
 hasVictory: ${hasVictory},

@@ -30,14 +30,6 @@ class _HomeViewState extends State<HomeView> {
               Icons.insert_chart_outlined,
               size: 35,
             )),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.settings_outlined,
-                size: 35,
-              ))
-        ],
       ),
       body: Observer(builder: (_) {
         return Column(

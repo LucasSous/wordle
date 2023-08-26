@@ -1,16 +1,44 @@
-# wordle
+<div align="center">
 
-A new Flutter project.
+![Wordle Logo](./assets/images/logo.png)
 
-## Getting Started
+### Wordle
 
-This project is a starting point for a Flutter application.
+#### A five-letter word guessing game for cell phones, developed with Flutter.
 
-A few resources to get you started if this is your first Flutter project:
+</div>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Key Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Home Page
+  - A random word is generated in each game and the aim of the game is to guess this word with a maximum of six chances.
+- Statistics Page
+  - On this page you can see all your statistics.
+- Saving progress
+  - The user will start the game where they left off last time.
+
+## How To Use
+
+To clone and run this application, you'll need Git and Flutter installed on your computer. From your command line:
+
+```
+# Clone this repository
+$ git clone https://github.com/LucasSous/wordle.git
+
+# Go into the repository
+$ cd wordle
+
+# Install dependencies
+$ flutter pub get
+
+# Run the app
+$ flutter run
+```
+
+## The Technologies Used
+
+- Flutter
+- Dart
+- MobX
+- Modular
+- Hive

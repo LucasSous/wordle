@@ -46,9 +46,6 @@ abstract class HomeStoreBase with Store {
   bool digitAnimate = false;
 
   @observable
-  bool nextGameAnimate = false;
-
-  @observable
   String secretWord = '';
 
   @observable
@@ -110,16 +107,14 @@ abstract class HomeStoreBase with Store {
     textBoxList[activeRow][activeBox].setValue(value);
     digitAnimate = true;
     var listOfEmpties = checkNotFilled(activeRow);
-    Timer(const Duration(milliseconds: 100), () {
-      digitAnimate = false;
-      if (listOfEmpties.isNotEmpty) {
-        if (activeBox < 4) {
-          activeBox += 1;
-        } else {
-          activeBox = listOfEmpties[0];
-        }
+    if (listOfEmpties.isNotEmpty) {
+      if (activeBox < 4) {
+        activeBox += 1;
+      } else {
+        activeBox = listOfEmpties[0];
       }
-    });
+    }
+    digitAnimate = false;
   }
 
   @action
@@ -286,9 +281,7 @@ abstract class HomeStoreBase with Store {
 
   @action
   Future<void> nextGame() async {
-    nextGameAnimate = !nextGameAnimate;
     finalized = false;
-    await Future.delayed(const Duration(milliseconds: 500));
     await _updateStatistics(hasVictory);
     await _gameData.put(kGameDataKey, null);
     _resetAll();

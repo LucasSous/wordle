@@ -25,7 +25,6 @@ class GridComponent extends StatelessWidget {
                   errorAnimate: homeStore.activeRow == index
                       ? homeStore.errorAnimate
                       : false,
-                  nextGameAnimate: homeStore.nextGameAnimate,
                   status: homeStore.textBoxList[index][idx].status,
                   letter: homeStore.textBoxList[index][idx].value,
                   selected: homeStore.activeBox == idx &&

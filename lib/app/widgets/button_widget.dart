@@ -17,8 +17,14 @@ class ButtonWidget extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: const TextStyle(fontSize: 30),
+        style: TextStyle(fontSize: 30, color: textColor(context)),
       ),
     );
+  }
+
+  Color? textColor(BuildContext context) {
+    return onPressed != null
+        ? Theme.of(context).textTheme.bodyLarge!.color
+        : Colors.black.withOpacity(0.2);
   }
 }
