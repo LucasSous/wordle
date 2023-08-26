@@ -42,3 +42,7 @@ $ flutter run
 - MobX
 - Modular
 - Hive
+
+## Dowload App
+
+[Wordle Game](https://drive.google.com/file/d/1hAsBzt7XLW-IEnEAw2P68wByrzxqC7rk/view?usp=sharing)
